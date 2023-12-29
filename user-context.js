@@ -16,3 +16,37 @@ const UserProvider = ({ children }) => {
     useEffect(() => {
         setIsAdmin(user && user.role === 'admin')
     }, [user])
+
+    useEffect(() => {
+        BackendApi.user.getProfile().then(({ user, error }) => {
+            if (error) {
+                console.error(error)
+            } else {
+                setUser(user)
+            }
+        }).catch(console.error)
+    }, [])
+
+    const loginUser = async (username, password) => {
+        const { user, error } = await BackendApi.user.login(username, password)
+        if (error) {
+            NotificationManager.error(error)
+        } else {
+            NotificationManager.success("Logged in successfully")
+            setUser(user)
+        }
+    }
+
+    const logoutUser = async () => {
+        setUser(null)
+        await BackendApi.user.logout()
+    }
+
+    return (
+        <UserContext.Provider value={{ user, loginUser, logoutUser, isAdmin }}>
+            {children}
+        </UserContext.Provider>
+    )
+}
+
+export { useUser, UserProvider }
