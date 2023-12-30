@@ -1,37 +1,31 @@
-const UserApi = {
-  
-  registerUser: async (data) => {
-    const res = await fetch(`/v1/user/register`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    })
-    return res.json()
-  },
-  updateUser: async (userId , data) => {
-    const res = await fetch(`/v1/user/${userId}`, {
-      method: "PATCH",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    })
-    return res.json()
-  },
-  login: async (username, password) => {
-    const res = await fetch("/v1/user/login", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: { "Content-Type": "application/json" },
-    })
-    return res.json()
-  },
-  getProfile: async () => {
-    const res = await fetch(`/v1/user/${userId}`, { method: "GET" })
-    return res.json()
-  },
-  logout: async () => {
-    const res = await fetch("/v1/user/logout", { method: "GET" })
-    return res.json()
-  },
-}
+const { model, Schema } = require("mongoose")
 
-module.exports = { UserApi }
+const UserModel = model(
+  "users",
+  new Schema({
+    userId:{
+      type:String,
+    },
+    username: {
+      type: String,
+      required: true,
+      unique: true
+    },
+
+    password: {
+      type: String,
+      required: true
+    },
+
+    email: {
+      type: String
+    }, 
+    role: {
+      type: String,
+      required: true,
+     default:["user"]
+    },
+  })
+)
+
+module.exports = { UserModel }
