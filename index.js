@@ -1,12 +1,9 @@
-// index.js
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { App } from "./App"
+const { UserApi } = require("./user")
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const BackendApi = {
+ 
+  user: UserApi,
+}
+
+module.exports = { BackendApi }
