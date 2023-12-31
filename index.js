@@ -1,9 +1,7 @@
+const apiV1 = require("express")
+const { router: userRouter } = require("./users")
 
-const { UserApi } = require("./user")
 
-const BackendApi = {
- 
-  user: UserApi,
-}
+apiV1.use("/user", userRouter)
 
-module.exports = { BackendApi }
+module.exports = { apiV1 }
